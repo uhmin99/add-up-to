@@ -1,10 +1,16 @@
-from itertools import product, permutations
+from itertools import product, permutations, combinations
 
-OPERATORS = ["+","-","*","/"]
+BASIC_OPERATORS = ["+","-","*","/"]
 
-def getAns(uInput: str) :
+def getAns(uInput: str, operators="") :
+    # Set usable operators
+    OPERATORS = []
+    if operators == "": OPERATORS = BASIC_OPERATORS
+    else : OPERATORS = makeOpCodable(operators)
+
     inputNumList = uInput.split(" ")
-    # 각 숫자 사이에 사칙연산 넣기
+
+    # Insert math operators between the numbers
     for numList in permutations(inputNumList, inputNumList.__len__()):
         for i in product(OPERATORS, repeat=numList.__len__() - 1) :
             exp = ""
@@ -41,7 +47,7 @@ def getExpResult(expression: str):
             print("!!NON NUMBER TYPE DETECTED!!" + str(result))
             return -1
     except:
-        print("ERROR : exception happened in getting getExpResult")
+        # print("ERROR : exception happened in getting getExpResult\nError exp is " + expression)
         return -1
     
 
@@ -49,3 +55,10 @@ def makeOpReadable(exp: str):
     replaceMul = exp.replace("*", "X")
     resultExp = replaceMul.replace("/", "÷")
     return resultExp
+
+def makeOpCodable(ops: str):
+    devideReplaced = ops.replace("÷", "/")
+    codableOps = devideReplaced.replace("X", "*")
+    opsList = codableOps.split(" ")
+
+    return opsList
