@@ -22,14 +22,42 @@ def getAns(uInput: str, operators="") :
                 else:
                     exp += (numList[j]+i[j])
 
-            # test exp
+            # test expression
             expRes = getExpResult(exp)
             if expRes == 10 :
                 resultExp = makeOpReadable(exp)
                 return resultExp
-            # else :
-            #     testWithBlank(exp)
-            #     # 만들어진 식에 괄호 넣어보기
+            else :
+                # Try exp with Bracket
+                for numIndexComb in combinations(list(range(numList.__len__())),2):
+                    expWithBracket = ""
+                    if numIndexComb == (0, numList.__len__()-1):
+                        continue
+                    
+                    for k in range(numList.__len__()):
+                        toBeAdded = ""
+                        numString = ""
+                        if k==numIndexComb[0]:
+                            numString += ("("+numList[k])
+                        elif k==numIndexComb[1]:
+                            numString += (numList[k]+")")
+                        else :
+                            numString += numList[k]
+                        
+                        if k==numList.__len__()-1:
+                            toBeAdded = numString
+                        else :
+                            toBeAdded = numString+i[k]
+
+                        expWithBracket += toBeAdded
+                    
+                    expBracketRes = getExpResult(expWithBracket)
+
+                    if expBracketRes == 10:
+                        resultExpWithBracket = makeOpReadable(expWithBracket)
+                        return resultExpWithBracket
+                        
+                            
 
     return "SOLUTION NOT FOUND"
     
